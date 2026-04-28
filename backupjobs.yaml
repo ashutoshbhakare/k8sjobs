@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mysql-backup-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: backup
+        image: mysql:8.0
+        command:
+        - /bin/sh
+        - -c
+        - |
+          mysqldump -h mysql-service -u root -pcentos unnati > /backup/unnati.sql && echo "Backup done"
+        volumeMounts:
+        - name: backup-storage
+          mountPath: /backup
+      restartPolicy: OnFailure
+      volumes:
+      - name: backup-storage
+        hostPath:
+          path: /opt/mysql-backups
+          type: DirectoryOrCreate
