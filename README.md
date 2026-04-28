@@ -47,6 +47,14 @@ kubectl exec -it <mysql-pod-name> -- mysql -u root -pcentos
 First delete data manually (to test restore):
 
 DROP DATABASE unnati;
+
+## Check data:
+
+kubectl exec -it <mysql-pod-name> -- mysql -u root -pcentos
+
+USE unnati;
+SELECT * FROM student;
+
 CREATE DATABASE unnati;
 EXIT;
 
