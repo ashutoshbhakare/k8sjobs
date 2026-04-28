@@ -1,5 +1,7 @@
+## Command to get into pod
 kubectl exec -it <mysql-pod-name> -- mysql -u root -pcentos 
 
+## Lets create DB and Tables 
 CREATE DATABASE unnati;
 USE unnati;
 
@@ -26,3 +28,25 @@ INSERT INTO student (name) VALUES
 ('Neha Kakkar');
 
 EXIT; 
+
+
+## Verify Backup 
+
+kubectl logs job/mysql-backup-job
+
+ssh  node01
+cat /opt/mysql-backups/unnati.sql
+grep -i "student" /opt/mysql-backups/unnati.sql
+
+
+
+## Restore Job 
+
+kubectl exec -it <mysql-pod-name> -- mysql -u root -pcentos 
+
+First delete data manually (to test restore):
+
+DROP DATABASE unnati;
+CREATE DATABASE unnati;
+EXIT;
+
